@@ -204,13 +204,14 @@ function App() {
         ]
           .filter(([id]) => ROLES[role].modules.includes(id))
           .map(([id, label]) => (
-            <div
+            <button
               key={id}
               className={`navitem ${activeView === id ? 'active' : ''}`}
               onClick={() => setActiveView(id)}
+              aria-current={activeView === id ? 'page' : undefined}
             >
               {label}
-            </div>
+            </button>
           ))}
 
         <button className="logout-btn" onClick={handleLogout}>Log out</button>
@@ -225,7 +226,7 @@ function App() {
               <div className="session">{ROLES[user.role].label}</div>
             </div>
           </div>
-
+          <div className="topbar-status"><span className="status-dot" /> Secure workspace <span className="status-divider" /> {ROLES[user.role].label}</div>
         </header>
 
         <div className="content">
