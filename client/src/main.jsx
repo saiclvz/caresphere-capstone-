@@ -538,13 +538,7 @@ function VisitorDashboard({ user }) {
   return (
     <>
       <h2>Donor & Visitor Dashboard</h2>
-      <div className="pagedesc">Welcome, {user.name}. View your donation history and current support needs.</div>
-
-      <div className="grid kpi-grid">
-        <Stat label="Total donations" value="₱25.5K" />
-        <Stat label="Donation records" value={DONATION_HISTORY.length} />
-        <Stat label="Current needs" value={CHILD_NEEDS.length} />
-      </div>
+      <div className="pagedesc">Welcome, {user.name}. Your donation history and current child support needs are shown below.</div>
 
       <div className="content-grid">
         <div className="card">
