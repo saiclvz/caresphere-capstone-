@@ -28,6 +28,10 @@ const ROLES = {
     label: 'QR Visitor / Donor',
     modules: ['dashboard', 'visitors', 'settings'],
   },
+  donor: {
+    label: 'Donor',
+    modules: ['dashboard', 'visitors', 'settings'],
+  },
 };
 
 const DEMO_USERS = [
@@ -76,6 +80,18 @@ const ACTIVITY = [
   { time: '08:15', user: 'M. Cruz', action: 'Logged medication follow-up', entity: 'Health' },
   { time: '07:58', user: 'J. Santos', action: 'Updated stock count', entity: 'Inventory' },
   { time: '07:26', user: 'System', action: 'Visitor check-in confirmed', entity: 'Visitors' },
+];
+
+const DONATION_HISTORY = [
+  { date: 'Sep 18, 2026', reference: 'DON-1048', amount: '₱12,000', status: 'Received' },
+  { date: 'Aug 30, 2026', reference: 'DON-0986', amount: '₱8,500', status: 'Received' },
+  { date: 'Jul 12, 2026', reference: 'DON-0914', amount: '₱5,000', status: 'Received' },
+];
+
+const CHILD_NEEDS = [
+  { need: 'School supplies', detail: 'Notebooks, pencils, and art materials', priority: 'High' },
+  { need: 'Children vitamins', detail: 'Monthly wellness supply', priority: 'Medium' },
+  { need: 'Rice and pantry staples', detail: 'Next two-week meal cycle', priority: 'Medium' },
 ];
 
 function avatarColor(name) {
@@ -437,6 +453,8 @@ function AuthScreen({ authTab, setAuthTab, onLogin }) {
 }
 
 function DashboardView({ user }) {
+  if (user.role === 'visitor' || user.role === 'donor') return <VisitorDashboard user={user} />;
+
   const lowStockItems = INVENTORY.filter((item) => item.stock <= item.min);
   const healthCoverage = CHILDREN.filter((child) => child.health).length;
   const inventoryUnits = INVENTORY.reduce((total, item) => total + item.stock, 0);
@@ -508,6 +526,42 @@ function DashboardView({ user }) {
           <div className="summary-list audit-summary">
             {ACTIVITY.slice(0, 4).map((entry) => (
               <div key={`${entry.time}-${entry.action}`}><span>{entry.time} · {entry.user}</span><strong>{entry.action}</strong></div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </>
+  );
+}
+
+function VisitorDashboard({ user }) {
+  return (
+    <>
+      <h2>Donor & Visitor Dashboard</h2>
+      <div className="pagedesc">Welcome, {user.name}. View your donation history and current support needs.</div>
+
+      <div className="grid kpi-grid">
+        <Stat label="Total donations" value="₱25.5K" />
+        <Stat label="Donation records" value={DONATION_HISTORY.length} />
+        <Stat label="Current needs" value={CHILD_NEEDS.length} />
+      </div>
+
+      <div className="content-grid">
+        <div className="card">
+          <h3>Donation history</h3>
+          <table>
+            <thead><tr><th>Date</th><th>Reference</th><th>Amount</th><th>Status</th></tr></thead>
+            <tbody>{DONATION_HISTORY.map((donation) => (
+              <tr key={donation.reference}><td>{donation.date}</td><td>{donation.reference}</td><td>{donation.amount}</td><td><span className="ok-badge">{donation.status}</span></td></tr>
+            ))}</tbody>
+          </table>
+        </div>
+
+        <div className="card">
+          <h3>Children needing help</h3>
+          <div className="summary-list">
+            {CHILD_NEEDS.map((item) => (
+              <div key={item.need}><span><strong>{item.need}</strong><br />{item.detail}</span><b className={item.priority === 'High' ? 'low' : 'ok-badge'}>{item.priority}</b></div>
             ))}
           </div>
         </div>
