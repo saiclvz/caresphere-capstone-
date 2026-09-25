@@ -358,9 +358,10 @@ function AuthScreen({ authTab, setAuthTab, onLogin }) {
         <div className="sub">Child Registry & Welfare Home Operations</div>
 
         <div className="authtabs">
-          <div className={authTab === 'login' ? 'active' : ''} onClick={() => setAuthTab('login')}>Login</div>
+          <div className={authTab === 'login' ? 'active' : ''} onClick={() => { setLoginType('admin'); setLoginUser('admin'); setLoginPass('Admin#2026'); setAuthTab('login'); }}>Administrator</div>
+          <div className={authTab === 'staff' ? 'active' : ''} onClick={() => { setLoginType('staff'); setLoginUser('staff'); setLoginPass('Staff#2026'); setAuthTab('staff'); }}>Staff</div>
+          <div className={authTab === 'visitor' ? 'active' : ''} onClick={() => setAuthTab('visitor')}>Visitor / Donor</div>
           <div className={authTab === 'signup' ? 'active' : ''} onClick={() => setAuthTab('signup')}>Sign up</div>
-          <div className={authTab === 'visitor' ? 'active' : ''} onClick={() => setAuthTab('visitor')}>Visitor</div>
         </div>
 
         {error && <div className="err">{error}</div>}
@@ -377,12 +378,8 @@ function AuthScreen({ authTab, setAuthTab, onLogin }) {
               Back to login
             </button>
           </form>
-        ) : authTab === 'login' ? (
+        ) : authTab === 'login' || authTab === 'staff' ? (
           <form onSubmit={submitLogin}>
-            <div className="login-role-tabs" aria-label="Login type">
-              <button type="button" className={loginType === 'admin' ? 'active' : ''} onClick={() => { setLoginType('admin'); setLoginUser('admin'); setLoginPass('Admin#2026'); setError(''); }}>Administrator</button>
-              <button type="button" className={loginType === 'staff' ? 'active' : ''} onClick={() => { setLoginType('staff'); setLoginUser('staff'); setLoginPass('Staff#2026'); setError(''); }}>Staff</button>
-            </div>
             <div className="auth-mode-title">{loginType === 'admin' ? 'Administrator login' : 'Staff login'}</div>
             <div className="field">
               <label>Username</label>
