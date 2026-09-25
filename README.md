@@ -4,7 +4,7 @@ A functional starter implementation based on the uploaded CareSphere capstone do
 
 ## Run
 1. Install Node.js 20+ and SQL Server 2019+ (or SQL Server Express).
-2. Execute `database/schema.sql` in SQL Server Management Studio or `sqlcmd`.
+2. Execute `database/schema.sql` in SQL Server Management Studio or, for local SQL Server Express, run `sqlcmd -S ".\SQLEXPRESS" -E -C -b -i database/schema.sql`.
 3. Copy `server/.env.example` to `server/.env` and set the SQL Server credentials and a strong JWT secret.
 4. Copy `client/.env.example` to `client/.env` if the API is not running at `http://localhost:4000/api`.
 5. From the project root, run `npm install`, `npm run install-all`, then `npm run dev`.

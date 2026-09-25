@@ -25,7 +25,7 @@ IF OBJECT_ID(N'dbo.QR_Tokens', N'U') IS NOT NULL DROP TABLE dbo.QR_Tokens;
 IF OBJECT_ID(N'dbo.Inventory_Transactions', N'U') IS NOT NULL DROP TABLE dbo.Inventory_Transactions;
 IF OBJECT_ID(N'dbo.Donations', N'U') IS NOT NULL DROP TABLE dbo.Donations;
 IF OBJECT_ID(N'dbo.Inventory_Items', N'U') IS NOT NULL DROP TABLE dbo.Inventory_Items;
-IF OBJECT_ID(N'dbo.Health_Profiles', N'U') IS NOT NULL DROP TABLE dbo.Health_Profiles;
+IF OBJECT_ID(N'dbo.Child_Health_Profile', N'U') IS NOT NULL DROP TABLE dbo.Child_Health_Profile;
 IF OBJECT_ID(N'dbo.Children', N'U') IS NOT NULL DROP TABLE dbo.Children;
 IF OBJECT_ID(N'dbo.User_Roles', N'U') IS NOT NULL DROP TABLE dbo.User_Roles;
 IF OBJECT_ID(N'dbo.Users', N'U') IS NOT NULL DROP TABLE dbo.Users;
@@ -262,7 +262,7 @@ END;
 GO
 
 CREATE INDEX IX_Children_Status ON dbo.Children(Status, LastName, FirstName);
-CREATE INDEX IX_Health_Profiles_ChildId ON dbo.Health_Profiles(ChildId);
+CREATE INDEX IX_Child_Health_Profile_ChildId ON dbo.Child_Health_Profile(ChildId);
 CREATE INDEX IX_Inventory_Items_LowStock ON dbo.Inventory_Items(Quantity, LowStockThreshold);
 CREATE INDEX IX_Inventory_Transactions_ItemDate ON dbo.Inventory_Transactions(InventoryItemId, CreatedAt DESC);
 CREATE INDEX IX_QR_Tokens_Expiry ON dbo.QR_Tokens(TokenHash, ExpiresAt);
