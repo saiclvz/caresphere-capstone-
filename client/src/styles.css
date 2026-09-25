@@ -457,6 +457,37 @@ tr:last-child td {
   color: #fff;
 }
 
+.login-role-tabs {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px;
+  margin-bottom: 8px;
+}
+
+.login-role-tabs button {
+  border: 1px solid var(--line);
+  background: #fff;
+  color: var(--muted);
+  border-radius: 6px;
+  padding: 7px 5px;
+  cursor: pointer;
+  font-size: 11px;
+}
+
+.login-role-tabs button.active {
+  background: var(--tealL);
+  border-color: var(--teal);
+  color: var(--teal);
+  font-weight: 700;
+}
+
+.auth-mode-title {
+  color: var(--navy);
+  font-size: 13px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+
 .err {
   font-size: 12px;
   color: var(--deny);

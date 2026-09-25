@@ -242,6 +242,7 @@ function App() {
 }
 
 function AuthScreen({ authTab, setAuthTab, onLogin }) {
+  const [loginType, setLoginType] = useState('admin');
   const [loginUser, setLoginUser] = useState('admin');
   const [loginPass, setLoginPass] = useState('Admin#2026');
   const [signupName, setSignupName] = useState('');
@@ -261,6 +262,10 @@ function AuthScreen({ authTab, setAuthTab, onLogin }) {
     event.preventDefault();
     try {
       const { data } = await api.post('/auth/login', { username: loginUser, password: loginPass });
+      if (data.user.role.toLowerCase() !== loginType) {
+        setError(`This account is not an ${loginType} account.`);
+        return;
+      }
       if (data.mfaRequired) {
         setPendingUser({ ...data.user, role: data.user.role.toLowerCase(), mfaChallenge: data.challengeToken });
         setError('');
@@ -273,7 +278,7 @@ function AuthScreen({ authTab, setAuthTab, onLogin }) {
       // Keep the offline prototype accounts available when SQL Server is not configured.
     }
     const found = DEMO_USERS.find((u) => u.username === loginUser && u.password === loginPass);
-    if (!found) {
+    if (!found || found.role !== loginType) {
       setError('Invalid credentials.');
       return;
     }
@@ -374,6 +379,11 @@ function AuthScreen({ authTab, setAuthTab, onLogin }) {
           </form>
         ) : authTab === 'login' ? (
           <form onSubmit={submitLogin}>
+            <div className="login-role-tabs" aria-label="Login type">
+              <button type="button" className={loginType === 'admin' ? 'active' : ''} onClick={() => { setLoginType('admin'); setLoginUser('admin'); setLoginPass('Admin#2026'); setError(''); }}>Administrator</button>
+              <button type="button" className={loginType === 'staff' ? 'active' : ''} onClick={() => { setLoginType('staff'); setLoginUser('staff'); setLoginPass('Staff#2026'); setError(''); }}>Staff</button>
+            </div>
+            <div className="auth-mode-title">{loginType === 'admin' ? 'Administrator login' : 'Staff login'}</div>
             <div className="field">
               <label>Username</label>
               <input value={loginUser} onChange={(e) => setLoginUser(e.target.value)} />
